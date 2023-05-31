@@ -1,0 +1,90 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  name String
+  email String
+  cpf Int
+  phone Int
+  birthday String
+  description String
+  type UserType @default(COMPRADOR)
+  password String
+
+  address Address?
+  advertisements Advertisement[]
+  comment Comment[]
+
+  @@map("users")
+}
+
+model Address {
+  id Int @id @default(autoincrement())
+  zip_code Int
+  state String
+  city String
+  street String
+  number Int
+  complement String
+
+  user User @relation(fields: [user_id], references: [id])
+  user_id Int @unique
+
+  @@map("adresses")
+}
+
+model Advertisement {
+  id Int @id @default(autoincrement())
+  brand String
+  model String
+  year Int
+  fuel FuelType @default(GASOLINA)
+  mileage Int
+  color String
+  fipe_list_price Int
+  price Int
+  description String
+  cover_image String
+  gallery_image_1 String
+  gallery_image_2 String
+
+  user User @relation(fields: [user_id], references: [id])
+  user_id Int
+  
+  comments Comment[]
+  
+  @@map("advertisements")
+}
+
+model Comment {
+  id Int @id @default(autoincrement())
+  comment String
+
+  user User @relation(fields: [user_id], references: [id])
+  user_id Int
+
+  advertisement Advertisement @relation(fields: [advertisement_id], references: [id])
+  advertisement_id Int
+
+  @@map("comments")
+}
+
+enum UserType {
+  COMPRADOR
+  ANUNCIANTE
+}
+
+enum FuelType {
+  GASOLINA
+  ETANOL
+}
