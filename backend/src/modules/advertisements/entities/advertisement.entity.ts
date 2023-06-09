@@ -8,7 +8,7 @@ export class Advertisement {
     brand: string
     model: string
     year: number
-    fuel: FuelType
+    fuel: string
     mileage: number
     color: string
     fipe_list_price: number

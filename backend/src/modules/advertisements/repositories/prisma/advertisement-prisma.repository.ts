@@ -8,7 +8,7 @@ import { UpdateAdvertisementDto } from "../../dto/update-advertisement.dto"
 @Injectable()
 export class AdvertisementsPrismaRepository implements AdvertisementsRepository {
     constructor(private prisma: PrismaService) {}
-    async create(data: CreateAdvertisementDto): Promise<Advertisement> {
+    async create(data: CreateAdvertisementDto, user_id: number): Promise<Advertisement> {
         const advertisement = new Advertisement()
         Object.assign(advertisement, {
             ...data
@@ -26,7 +26,8 @@ export class AdvertisementsPrismaRepository implements AdvertisementsRepository 
                 model: data.model,
                 price: data.price,
                 year: data.year,
-                fuel: data.fuel
+                fuel: data.fuel,
+                user_id: user_id
             }
         })
         return newAdvertisement

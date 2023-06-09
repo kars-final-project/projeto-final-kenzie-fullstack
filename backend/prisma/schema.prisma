@@ -18,7 +18,7 @@ model User {
   phone Int
   birthday String
   description String
-  type UserType @default(COMPRADOR)
+  type String // UserType @default(COMPRADOR)
   password String
 
   address Address?
@@ -48,7 +48,7 @@ model Advertisement {
   brand String
   model String
   year Int
-  fuel FuelType @default(GASOLINA)
+  fuel String // FuelType @default(GASOLINA)
   mileage Int
   color String
   fipe_list_price Int
