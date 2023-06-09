@@ -31,9 +31,10 @@ export class CreateUserDto {
     @IsNotEmpty()
     description: string
     
-    @IsEnum(UserType)
+    // @IsEnum(UserType)
+    @IsString()
     @IsNotEmpty()
-    type: UserType
+    type: string
     
     @IsString()
     @IsNotEmpty()

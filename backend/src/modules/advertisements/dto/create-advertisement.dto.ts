@@ -18,9 +18,10 @@ export class CreateAdvertisementDto {
     @IsNotEmpty()
     year: number
 
-    @IsEnum(FuelType)
+    // @IsEnum(FuelType)
+    @IsString()
     @IsNotEmpty()
-    fuel: FuelType
+    fuel: string
 
     @IsNumber()
     @IsNotEmpty()

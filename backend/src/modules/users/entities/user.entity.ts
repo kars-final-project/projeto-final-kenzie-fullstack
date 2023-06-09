@@ -5,7 +5,7 @@ export class User {
     phone: number
     birthday: string
     description: string
-    type:  UserType
+    type:  string
     password: string
 }
 
