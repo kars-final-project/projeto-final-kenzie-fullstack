@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsString, IsNumber, IsEnum } from "class-validator"
+import { IsEmail, IsNotEmpty, IsString, IsEnum } from "class-validator"
 
 enum UserType {
     COMPRADOR = 'comprador',
@@ -15,13 +15,13 @@ export class CreateUserDto {
     email: string
     
     
-    @IsNumber()
+    @IsString()
     @IsNotEmpty()
-    cpf: number
+    cpf: string
 
-    @IsNumber()
+    @IsString()
     @IsNotEmpty()
-    phone: number
+    phone: string
 
     @IsString()
     @IsNotEmpty()

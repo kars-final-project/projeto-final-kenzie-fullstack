@@ -1,4 +1,4 @@
-import { IsEnum, IsNotEmpty, IsNumber, IsString } from "class-validator"
+import { IsEnum, IsNotEmpty, IsString } from "class-validator"
 
 enum FuelType {
     GASOLINA,
@@ -14,30 +14,30 @@ export class CreateAdvertisementDto {
     @IsNotEmpty()
     model: string
     
-    @IsNumber()
+    @IsString()
     @IsNotEmpty()
-    year: number
+    year: string
 
     // @IsEnum(FuelType)
     @IsString()
     @IsNotEmpty()
     fuel: string
 
-    @IsNumber()
+    @IsString()
     @IsNotEmpty()
-    mileage: number
+    mileage: string
 
     @IsString()
     @IsNotEmpty()
     color: string
 
-    @IsNumber()
+    @IsString()
     @IsNotEmpty()
-    fipe_list_price: number
+    fipe_list_price: string
 
-    @IsNumber()
+    @IsString()
     @IsNotEmpty()
-    price: number
+    price: string
 
     @IsString()
     @IsNotEmpty()

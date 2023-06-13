@@ -2,19 +2,20 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { AdvertisementsService } from './advertisements.service';
 import { CreateAdvertisementDto } from './dto/create-advertisement.dto';
 import { UpdateAdvertisementDto } from './dto/update-advertisement.dto';
+import { Req } from '@nestjs/common';
 
 @Controller('advertisements')
 export class AdvertisementsController {
   constructor(private readonly advertisementsService: AdvertisementsService) {}
 
   @Post()
-  create(@Body() createAdvertisementDto: CreateAdvertisementDto) {
-    return this.advertisementsService.create(createAdvertisementDto);
+  create(@Req() {user},@Body() createAdvertisementDto: CreateAdvertisementDto) {
+    return this.advertisementsService.create(createAdvertisementDto, user.id);
   }
 
   @Get()
-  findAll() {
-    return this.advertisementsService.findAll();
+  findAll(@Req() {user}) {
+    return this.advertisementsService.findAll(user.id);
   }
 
   @Get(':id')

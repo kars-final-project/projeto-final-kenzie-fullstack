@@ -7,12 +7,12 @@ export class Advertisement {
     readonly id: number
     brand: string
     model: string
-    year: number
+    year: string
     fuel: string
-    mileage: number
+    mileage: string
     color: string
-    fipe_list_price: number
-    price: number
+    fipe_list_price: string
+    price: string
     description: string
     cover_image: string
     gallery_image_1: string

@@ -1,26 +1,37 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAdvertisementDto } from './dto/create-advertisement.dto';
 import { UpdateAdvertisementDto } from './dto/update-advertisement.dto';
+import { AdvertisementsRepository } from './repositories/advertisements.repository';
+import { Advertisement } from './entities/advertisement.entity';
+import { NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class AdvertisementsService {
-  create(createAdvertisementDto: CreateAdvertisementDto) {
-    return 'This action adds a new advertisement';
+  constructor(private advertisementRepository: AdvertisementsRepository) {}
+  async create(createAdvertisementDto: CreateAdvertisementDto, user_id: number) {
+    const advertisement = await this.advertisementRepository.create(createAdvertisementDto, user_id)
+    return advertisement
   }
 
-  findAll() {
-    return `This action returns all advertisements`;
+  async findAll(user_id: number) {
+    const advertisements: Advertisement[] = await this.advertisementRepository.findAll(user_id);
+    return advertisements
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} advertisement`;
+  async findOne(id: number) {
+    const advertisement: Advertisement = await this.advertisementRepository.findOne(id)
+    if (!advertisement) throw new NotFoundException('advertisement not found')
+    return advertisement
   }
 
-  update(id: number, updateAdvertisementDto: UpdateAdvertisementDto) {
-    return `This action updates a #${id} advertisement`;
+  async update(id: number, updateAdvertisementDto: UpdateAdvertisementDto) {
+    await this.findOne(id)
+    const advertisement: Advertisement = await this.advertisementRepository.update(id, updateAdvertisementDto)
+    return advertisement
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} advertisement`;
+  async remove(id: number) {
+    await this.findOne(id)
+    await this.advertisementRepository.delete(id)
   }
 }
