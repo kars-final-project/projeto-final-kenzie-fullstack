@@ -1,8 +1,8 @@
 export class User {
     name: string
     email: string
-    cpf: number
-    phone: number
+    cpf: string
+    phone: string
     birthday: string
     description: string
     type:  string
