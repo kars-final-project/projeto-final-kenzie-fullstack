@@ -10,6 +10,6 @@ import { AuthModule } from './modules/auth/auth.module';
 @Module({
   imports: [UsersModule, AdressesModule, AdvertisementsModule, CommentsModule, AuthModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService]
 })
 export class AppModule {}
