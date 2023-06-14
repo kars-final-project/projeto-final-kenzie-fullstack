@@ -17,8 +17,6 @@ export class UsersService {
 
     const user = await this.userRepository.create(createUserDto)
     
-    console.log(user)
-
     return user
   }
 
