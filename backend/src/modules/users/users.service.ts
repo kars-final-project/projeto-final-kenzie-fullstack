@@ -16,6 +16,9 @@ export class UsersService {
     }
 
     const user = await this.userRepository.create(createUserDto)
+    
+    console.log(user)
+
     return user
   }
 
@@ -26,6 +29,11 @@ export class UsersService {
 
   async findOne(id: number) {
     const user = await this.userRepository.findOne(id)
+    return user
+  }
+
+  async findByEmail(email: string) {
+    const user = await this.userRepository.findByEmail(email)
     return user
   }
 
