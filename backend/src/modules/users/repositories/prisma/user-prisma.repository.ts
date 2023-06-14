@@ -14,7 +14,6 @@ export class UsersPrismaRepository implements UsersRepository {
         Object.assign(user, {
             ...data
         })
-
         const newUser = await this.prisma.user.create({
             data: { 
                 name:user.name,
@@ -40,9 +39,9 @@ export class UsersPrismaRepository implements UsersRepository {
         return plainToInstance(User, user)
     }
     async findByEmail(email: string): Promise<User> {
-const user = await this.prisma.user.findFirst({
-            where: {email}
-=======
+        const user = await this.prisma.user.findUnique({
+            where: { email },
+        }) 
         return user
     }
     async update(id: number, data: UpdateUserDto): Promise<User> {
