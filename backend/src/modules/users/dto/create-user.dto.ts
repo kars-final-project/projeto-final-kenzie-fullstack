@@ -1,4 +1,6 @@
-import { IsEmail, IsNotEmpty, IsString, IsEnum } from "class-validator"
+import { hashSync } from "bcryptjs"
+import { Transform } from "class-transformer"
+import { IsEmail, IsNotEmpty, IsString, IsEnum, minLength, MinLength } from "class-validator"
 
 enum UserType {
     COMPRADOR = 'comprador',
@@ -38,5 +40,7 @@ export class CreateUserDto {
     
     @IsString()
     @IsNotEmpty()
+    @MinLength(8)
+    @Transform( ({ value }) => hashSync(value, 10), { groups: ["pass"] } )
     password: string
 }
