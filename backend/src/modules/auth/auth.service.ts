@@ -17,7 +17,7 @@ export class AuthService {
       const passwordMatch = await compare(userPassword, user.password);
 
       if(passwordMatch){
-        return { email: user.email };
+        return user
       }
     }
 
