@@ -4,8 +4,10 @@ import { UsersController } from './users.controller';
 import { PrismaService } from 'src/database/prisma.service';
 import { UsersRepository } from './repositories/users.repository';
 import { UsersPrismaRepository } from './repositories/prisma/user-prisma.repository';
+import { AdressesModule } from '../adresses/adresses.module';
 
 @Module({
+  imports: [AdressesModule],
   controllers: [UsersController],
   providers: [
     UsersService,
