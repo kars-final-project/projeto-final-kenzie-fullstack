@@ -43,4 +43,28 @@ export class CreateUserDto {
     @MinLength(8)
     @Transform( ({ value }) => hashSync(value, 10), { groups: ["pass"] } )
     password: string
+
+    @IsString()
+    @IsNotEmpty()
+    zip_code: string
+
+    @IsString()
+    @IsNotEmpty()
+    state: string
+
+    @IsString()
+    @IsNotEmpty()
+    city: string
+
+    @IsString()
+    @IsNotEmpty()
+    street: string
+
+    @IsString()
+    @IsNotEmpty()
+    number: string
+
+    @IsString()
+    @IsNotEmpty()
+    complement: string
 }
