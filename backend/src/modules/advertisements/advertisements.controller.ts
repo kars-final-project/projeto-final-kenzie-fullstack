@@ -10,7 +10,7 @@ export class AdvertisementsController {
   constructor(private readonly advertisementsService: AdvertisementsService) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, AdvertiserAuthGuard)
   create(@Request() req ,@Body() createAdvertisementDto: CreateAdvertisementDto) {
     return this.advertisementsService.create(createAdvertisementDto, req.user.id);
   }
@@ -26,13 +26,13 @@ export class AdvertisementsController {
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, AdvertiserAuthGuard)
   update(@Request() req, @Param('id') id: string, @Body() updateAdvertisementDto: UpdateAdvertisementDto) {
     return this.advertisementsService.update(+id, updateAdvertisementDto, req.user.id);
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, AdvertiserAuthGuard)
   remove(@Request() req, @Param('id') id: string) {
     return this.advertisementsService.remove(+id, req.user.id);
   }
