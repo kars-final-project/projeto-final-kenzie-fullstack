@@ -27,7 +27,9 @@ export class AdvertisementsPrismaRepository implements AdvertisementsRepository 
                 price: data.price,
                 year: data.year,
                 fuel: data.fuel,
-                user_id: user_id
+                user: {
+                    connect: { id: Number(user_id)}
+                  }
             }
         })
         return newAdvertisement

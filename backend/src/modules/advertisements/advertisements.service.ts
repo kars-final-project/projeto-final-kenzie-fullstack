@@ -3,7 +3,7 @@ import { CreateAdvertisementDto } from './dto/create-advertisement.dto';
 import { UpdateAdvertisementDto } from './dto/update-advertisement.dto';
 import { AdvertisementsRepository } from './repositories/advertisements.repository';
 import { Advertisement } from './entities/advertisement.entity';
-import { NotFoundException } from '@nestjs/common';
+import { NotFoundException, UnauthorizedException } from '@nestjs/common';
 
 @Injectable()
 export class AdvertisementsService {
@@ -13,8 +13,8 @@ export class AdvertisementsService {
     return advertisement
   }
 
-  async findAll(user_id: number) {
-    const advertisements: Advertisement[] = await this.advertisementRepository.findAll(user_id);
+  async findAll() {
+    const advertisements: Advertisement[] = await this.advertisementRepository.findAll();
     return advertisements
   }
 
@@ -24,14 +24,20 @@ export class AdvertisementsService {
     return advertisement
   }
 
-  async update(id: number, updateAdvertisementDto: UpdateAdvertisementDto) {
-    await this.findOne(id)
-    const advertisement: Advertisement = await this.advertisementRepository.update(id, updateAdvertisementDto)
-    return advertisement
+  async update(id: number, updateAdvertisementDto: UpdateAdvertisementDto, user_id) {
+    const advertisement = await this.findOne(id)
+    if(user_id != advertisement.user_id){
+      throw new UnauthorizedException("insufficient permission")
+    }
+    const newAdvertisement: Advertisement = await this.advertisementRepository.update(id, updateAdvertisementDto)
+    return newAdvertisement
   }
 
-  async remove(id: number) {
-    await this.findOne(id)
+  async remove(id: number, user_id) {
+    const advertisement = await this.findOne(id)
+    if(user_id != advertisement.user_id){
+      throw new UnauthorizedException("insufficient permission")
+    }
     await this.advertisementRepository.delete(id)
   }
 }
