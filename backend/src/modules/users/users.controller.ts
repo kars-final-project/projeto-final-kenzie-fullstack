@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request, HttpCode } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -32,5 +32,20 @@ export class UsersController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
+  }
+
+  @HttpCode(200)
+  @Post("resetPassword")
+  async sendEmailResetPassword(@Body("email") email: string) {
+    await this.usersService.sendEmailResetPassword(email)
+
+    return {message: "token send"}
+  }
+
+  @Patch("resetPassword/:token")
+  async resetPassord(@Param("token") token: string, @Body("password") password: string) {
+    await this.usersService.resetPassword(password, token)
+
+    return { message: "password change with sucess" }
   }
 }
