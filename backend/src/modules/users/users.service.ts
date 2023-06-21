@@ -1,4 +1,4 @@
-import { Injectable, ConflictException } from '@nestjs/common';
+import { Injectable, ConflictException, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersRepository } from './repositories/users.repository';
@@ -45,8 +45,24 @@ export class UsersService {
     return user
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
-    const user = await this.userRepository.update(id, updateUserDto)
+  async update(id: number, updateUserDto: UpdateUserDto, authId: string) {
+    if(+authId !== id){
+      throw new UnauthorizedException("insufficient permission") 
+    }
+
+    const userAuth = await this.userRepository.findOne(+authId)
+
+    if(updateUserDto.email){
+      const findUser = await this.userRepository.findByEmail(
+        updateUserDto.email,
+      )
+      if(findUser && userAuth.email !== updateUserDto.email){
+        throw new ConflictException("Email already exists")
+      }
+    }
+
+    const user = await this.userRepository.update(id, updateUserDto, authId)
+
     return user
   }
 
