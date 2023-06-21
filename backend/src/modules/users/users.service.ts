@@ -1,12 +1,19 @@
-import { Injectable, ConflictException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, ConflictException, UnauthorizedException, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersRepository } from './repositories/users.repository';
 import { AddressRepository } from '../adresses/repositories/address.repository';
+import { randomUUID } from 'node:crypto';
+import { MailService } from 'src/utils/mail.service';
 
 @Injectable()
 export class UsersService {
-  constructor(private userRepository: UsersRepository, private addressRepository: AddressRepository) {}
+  constructor(
+    private userRepository: UsersRepository,
+    private addressRepository: AddressRepository,
+    private mailService: MailService
+  ) {}
+
   async create(createUserDto: CreateUserDto) {
     const findUser = await this.userRepository.findByEmail(
       createUserDto.email,
@@ -69,5 +76,31 @@ export class UsersService {
   async remove(id: number) {
     await this.userRepository.delete(id)
     return
+  }
+
+  async sendEmailResetPassword(email: string) {
+    const findUser = await this.userRepository.findByEmail(email)
+
+    if(!findUser){
+      throw new NotFoundException("User not found!")
+    }
+
+    const resetToken = randomUUID()
+
+    await this.userRepository.updateToken(email, resetToken)
+
+    const resetPasswordTempalte = this.mailService.resetPasswordTempalte(email, findUser.name, resetToken)
+
+    await this.mailService.sendEmail(resetPasswordTempalte)
+  }
+
+  async resetPassword(password: string, reset_token: string) {
+    const findUser = await this.userRepository.findByToken(reset_token)
+
+    if(!findUser){
+      throw new NotFoundException("User not found!")
+    }
+
+    await this.userRepository.updatePassword(findUser.id, password)
   }
 }
