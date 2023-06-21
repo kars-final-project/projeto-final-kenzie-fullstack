@@ -43,7 +43,7 @@ CREATE TABLE "advertisements" (
     "mileage" TEXT NOT NULL,
     "color" TEXT NOT NULL,
     "fipe_list_price" TEXT NOT NULL,
-    "price" INTEGER NOT NULL,
+    "price" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "cover_image" TEXT NOT NULL,
     "gallery_image_1" TEXT NOT NULL,
@@ -64,10 +64,13 @@ CREATE TABLE "comments" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "adresses_user_id_key" ON "adresses"("user_id");
 
 -- AddForeignKey
-ALTER TABLE "adresses" ADD CONSTRAINT "adresses_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "adresses" ADD CONSTRAINT "adresses_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "advertisements" ADD CONSTRAINT "advertisements_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
