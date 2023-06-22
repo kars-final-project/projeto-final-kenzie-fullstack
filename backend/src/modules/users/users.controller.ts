@@ -30,8 +30,9 @@ export class UsersController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  @UseGuards(JwtAuthGuard)
+  remove(@Request() req, @Param('id') id: string) {
+    return this.usersService.remove(+id, req.user.id);
   }
 
   @HttpCode(200)

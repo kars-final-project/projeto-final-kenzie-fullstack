@@ -73,7 +73,14 @@ export class UsersService {
     return user
   }
 
-  async remove(id: number) {
+  async remove(id: number, idAuth: string) {
+    if(+idAuth !== id){
+      throw new UnauthorizedException("insufficient permission") 
+    }
+    const user = await this.userRepository.findOne(id)
+    if(!user) {
+      throw new NotFoundException('User not found');
+    }
     await this.userRepository.delete(id)
     return
   }
