@@ -1,4 +1,5 @@
 export class Adress {
+    readonly id: number;
     zip_code: string
     state: string
     city: string

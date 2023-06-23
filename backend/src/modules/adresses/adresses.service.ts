@@ -1,9 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAdressDto } from './dto/create-adress.dto';
 import { UpdateAdressDto } from './dto/update-adress.dto';
+import { AddressRepository } from './repositories/address.repository';
 
 @Injectable()
 export class AdressesService {
+  constructor(
+    private addressRepository: AddressRepository,
+  ) {}
+
   create(createAdressDto: CreateAdressDto) {
     return 'This action adds a new adress';
   }
@@ -16,8 +21,10 @@ export class AdressesService {
     return `This action returns a #${id} adress`;
   }
 
-  update(id: number, updateAdressDto: UpdateAdressDto) {
-    return `This action updates a #${id} adress`;
+  async update(user_id: string, updateAdressDto: UpdateAdressDto) {
+    const address = await this.addressRepository.update(+user_id, updateAdressDto)
+
+    return address
   }
 
   remove(id: number) {
