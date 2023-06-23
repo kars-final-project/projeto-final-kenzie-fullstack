@@ -20,7 +20,7 @@ model User {
   description String
   type String // UserType @default(COMPRADOR)
   password String
-
+  reset_token String?
   address Address?
   advertisements Advertisement[]
   comment Comment[]
@@ -37,7 +37,7 @@ model Address {
   number String
   complement String
 
-  user User @relation(fields: [user_id], references: [id])
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id Int @unique
 
   @@map("adresses")
