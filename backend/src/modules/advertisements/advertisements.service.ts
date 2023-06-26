@@ -24,6 +24,12 @@ export class AdvertisementsService {
     return advertisement
   }
 
+  async findManyByUserId(id: number) {
+    const advertisements: Advertisement[] = await this.advertisementRepository.findManyByUserId(id)
+    if (!advertisements) throw new NotFoundException('user has no advertisements')
+    return advertisements
+  }
+
   async update(id: number, updateAdvertisementDto: UpdateAdvertisementDto, user_id) {
     const advertisement = await this.findOne(id)
     if(user_id != advertisement.user_id){
