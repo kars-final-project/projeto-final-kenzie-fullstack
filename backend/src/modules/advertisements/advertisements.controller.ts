@@ -20,6 +20,11 @@ export class AdvertisementsController {
     return this.advertisementsService.findAll();
   }
 
+  @Get('/byuserid/:id')
+  findManyByUserId(@Param('id') id: number) {
+    return this.advertisementsService.findManyByUserId(+id)
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.advertisementsService.findOne(+id);
