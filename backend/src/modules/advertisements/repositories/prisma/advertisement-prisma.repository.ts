@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma.service';
 import { AdvertisementsRepository } from '../advertisements.repository';
 import { CreateAdvertisementDto } from '../../dto/create-advertisement.dto';
-import { Advertisement } from '../../entities/advertisement.entity';
 import { UpdateAdvertisementDto } from '../../dto/update-advertisement.dto';
+import { Advertisement } from '../../entities/advertisement.entity';
 
 @Injectable()
 export class AdvertisementsPrismaRepository
@@ -12,7 +12,7 @@ export class AdvertisementsPrismaRepository
   constructor(private prisma: PrismaService) {}
   async create(
     data: CreateAdvertisementDto,
-    user_id: number,
+    user_id: string,
   ): Promise<Advertisement> {
     const advertisement = new Advertisement();
     Object.assign(advertisement, {
@@ -33,7 +33,7 @@ export class AdvertisementsPrismaRepository
         year: data.year,
         fuel: data.fuel,
         user: {
-          connect: { id: Number(user_id) },
+          connect: { id: parseInt(user_id) },
         },
       },
     });
