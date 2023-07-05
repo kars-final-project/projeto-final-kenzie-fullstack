@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma.service';
 import { CommentsRepository } from '../../comments.repository';
@@ -27,20 +28,32 @@ export class CommentsPrismaRepository implements CommentsRepository {
     return newComment;
   }
   async findAll(): Promise<Comment[]> {
-    const comments = await this.prisma.comment.findMany();
+    const comments = await this.prisma.comment.findMany({
+      include: {
+        user: true
+      }
+    });
     return comments;
   }
 
   async findOne(id: number): Promise<Comment> {
     const comment = await this.prisma.comment.findUnique({
       where: { id },
+      include: {
+        user: true,
+      },
     });
     return comment;
   }
 
   async findManyByUserId(id: number): Promise<Comment[]> {
     const comments = await this.prisma.comment.findMany({
-      where: { user_id: id },
+      where: { 
+        user_id: id 
+      },
+      include: {
+        user: true,
+      },
     });
     return comments;
   }
@@ -48,6 +61,9 @@ export class CommentsPrismaRepository implements CommentsRepository {
   async findManyByAdvertisementId(id: number): Promise<Comment[]> {
     const comments = await this.prisma.comment.findMany({
       where: { advertisement_id: id },
+      include: {
+        user: true,
+      },
     });
     return comments;
   }

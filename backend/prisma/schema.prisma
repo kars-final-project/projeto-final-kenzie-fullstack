@@ -17,6 +17,7 @@ model User {
   description    String
   type           String
   password       String
+  user_image     String
   reset_token    String?
   address        Address?
   advertisements Advertisement[]

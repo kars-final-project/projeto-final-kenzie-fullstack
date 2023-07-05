@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { hashSync } from "bcryptjs"
 import { Transform } from "class-transformer"
 import { IsEmail, IsNotEmpty, IsString, IsEnum, minLength, MinLength } from "class-validator"
@@ -65,6 +66,9 @@ export class CreateUserDto {
     number: string
 
     @IsString()
-    @IsNotEmpty()
     complement: string
+
+    @IsString()
+    @IsNotEmpty()
+    user_image: string
 }

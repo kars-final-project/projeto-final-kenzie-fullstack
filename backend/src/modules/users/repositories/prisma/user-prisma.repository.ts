@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable } from "@nestjs/common"
 import { PrismaService } from "src/database/prisma.service"
 import { plainToInstance } from "class-transformer" 
@@ -24,7 +25,8 @@ export class UsersPrismaRepository implements UsersRepository {
                 cpf:user.cpf,
                 description:user.description,
                 type:user.type,
-                password:user.password
+                password:user.password,
+                user_image:user.user_image
             }
         })
         return plainToInstance(User, newUser)
