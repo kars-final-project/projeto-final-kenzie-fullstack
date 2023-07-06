@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,70 +8,67 @@ datasource db {
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  name String
-  email String @unique
-  cpf String
-  phone String
-  birthday String
-  description String
-  type String // UserType @default(COMPRADOR)
-  password String
-  reset_token String?
-  address Address?
+  id             Int             @id @default(autoincrement())
+  name           String
+  email          String          @unique
+  cpf            String
+  phone          String
+  birthday       String
+  description    String
+  type           String
+  password       String
+  user_image     String
+  reset_token    String?
+  address        Address?
   advertisements Advertisement[]
-  comment Comment[]
+  comment        Comment[]
 
   @@map("users")
 }
 
 model Address {
-  id Int @id @default(autoincrement())
-  zip_code String
-  state String
-  city String
-  street String
-  number String
+  id         Int    @id @default(autoincrement())
+  zip_code   String
+  state      String
+  city       String
+  street     String
+  number     String
   complement String
-
-  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  user_id Int @unique
+  user_id    Int    @unique
+  user       User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   @@map("adresses")
 }
 
 model Advertisement {
-  id Int @id @default(autoincrement())
-  brand String
-  model String
-  year String
-  fuel String // FuelType @default(GASOLINA)
-  mileage String
-  color String
+  id              Int       @id @default(autoincrement())
+  brand           String
+  model           String
+  year            String
+  fuel            String
+  mileage         String
+  color           String
   fipe_list_price String
-  price String
-  description String
-  cover_image String
+  price           String
+  description     String
+  cover_image     String
   gallery_image_1 String
   gallery_image_2 String
+  user_id         Int
+  user            User      @relation(fields: [user_id], references: [id])
+  comments        Comment[]
 
-  user User @relation(fields: [user_id], references: [id])
-  user_id Int
-  
-  comments Comment[]
-  
   @@map("advertisements")
 }
 
 model Comment {
-  id Int @id @default(autoincrement())
-  comment String
-
-  user User @relation(fields: [user_id], references: [id])
-  user_id Int
-
-  advertisement Advertisement @relation(fields: [advertisement_id], references: [id])
+  id               Int           @id @default(autoincrement())
+  comment          String
+  user_id          Int
   advertisement_id Int
+  advertisement    Advertisement @relation(fields: [advertisement_id], references: [id])
+  user             User          @relation(fields: [user_id], references: [id])
+  created_at       DateTime      @default(now())
 
   @@map("comments")
 }

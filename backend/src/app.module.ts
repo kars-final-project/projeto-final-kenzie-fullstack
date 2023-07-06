@@ -8,8 +8,14 @@ import { CommentsModule } from './modules/comments/comments.module';
 import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
-  imports: [UsersModule, AdressesModule, AdvertisementsModule, CommentsModule, AuthModule],
+  imports: [
+    UsersModule,
+    AdressesModule,
+    AdvertisementsModule,
+    CommentsModule,
+    AuthModule,
+  ],
   controllers: [AppController],
-  providers: [AppService]
+  providers: [AppService],
 })
 export class AppModule {}

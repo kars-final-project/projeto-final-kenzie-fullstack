@@ -8,7 +8,7 @@ import { NotFoundException, UnauthorizedException } from '@nestjs/common';
 @Injectable()
 export class AdvertisementsService {
   constructor(private advertisementRepository: AdvertisementsRepository) {}
-  async create(createAdvertisementDto: CreateAdvertisementDto, user_id: number) {
+  async create(createAdvertisementDto: CreateAdvertisementDto, user_id: string) {
     const advertisement = await this.advertisementRepository.create(createAdvertisementDto, user_id)
     return advertisement
   }
@@ -24,7 +24,13 @@ export class AdvertisementsService {
     return advertisement
   }
 
-  async update(id: number, updateAdvertisementDto: UpdateAdvertisementDto, user_id) {
+  async findManyByUserId(id: number) {
+    const advertisements: Advertisement[] = await this.advertisementRepository.findManyByUserId(id)
+    if (!advertisements) throw new NotFoundException('user has no advertisements')
+    return advertisements
+  }
+
+  async update(id: number, updateAdvertisementDto: UpdateAdvertisementDto, user_id: number) {
     const advertisement = await this.findOne(id)
     if(user_id != advertisement.user_id){
       throw new UnauthorizedException("insufficient permission")

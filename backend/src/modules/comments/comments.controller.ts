@@ -1,5 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { CommentsService } from './comments.service';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
+import { CommentsService } from './repositories/comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
 
@@ -22,8 +30,14 @@ export class CommentsController {
     return this.commentsService.findOne(+id);
   }
 
+  @Get('commentsByAd/:id')
+  findMany(@Param('id') id: number) {
+    return this.commentsService.findManyByAdId(+id)
+  }
+  
+
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCommentDto: UpdateCommentDto) {
+  update(@Param('id') id: number, @Body() updateCommentDto: UpdateCommentDto) {
     return this.commentsService.update(+id, updateCommentDto);
   }
 
